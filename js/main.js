@@ -1,16 +1,19 @@
 // Main Entry Point - ES6 Modules
 import { createObserver, forceScrollReset } from './utils.js';
-import { 
-  initTypingEffect, 
-  initParticles, 
-  initAOS, 
+import {
+  initTypingEffect,
+  initParticles,
+  initAOS,
   initFadeInSections,
   initWhatIDoAnimation,
+  initTerminalAnimation,
+  initCounters,
   IMAGE_ERROR_RECHECK_DELAY
 } from './animations.js';
-import { 
-  initHeader, 
-  initMobileMenu, 
+import {
+  initHeader,
+  initMobileMenu,
+  initSmoothNavigation,
   initScrollProgress,
   initCertModal,
   initStickyCTA,
@@ -57,14 +60,17 @@ hideLoadingScreen();
 initScrollProgress();
 initHeader();
 initMobileMenu();
+initSmoothNavigation();
 initTypingEffect();
 initParticles();
 initImageErrorHandlers();
+initTerminalAnimation();
+initCounters();
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   forceScrollReset();
-  
+
   initAOS();
   initWhatIDoAnimation(observer);
   initFadeInSections();

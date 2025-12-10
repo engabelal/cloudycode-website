@@ -21,11 +21,90 @@ export function initHeader() {
   handleHeaderScroll();
 }
 
+// Smooth Scroll Navigation Handler
+export function initSmoothNavigation() {
+  const navItems = document.querySelectorAll('.nav-item, .skip-link');
+  const logoLink = document.querySelector('.header-logo');
+
+  navItems.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+
+      // Handle home/main link - remove hash and scroll to top
+      if (href === '#main') {
+        e.preventDefault();
+        window.history.pushState('', document.title, window.location.pathname + window.location.search);
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        return;
+      }
+
+      // Handle other section links with smooth scroll
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          // Update URL hash
+          window.history.pushState(null, null, href);
+
+          // Smooth scroll to target
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }
+    });
+  });
+
+  // Handle logo click - remove hash and scroll to top if on same page
+  if (logoLink) {
+    logoLink.addEventListener('click', (e) => {
+      const logoHref = logoLink.getAttribute('href');
+      const currentLocation = window.location.origin + window.location.pathname;
+
+      // If logo points to current page or root, prevent default and remove hash
+      if (logoHref === currentLocation || logoHref === window.location.origin || logoHref === '/') {
+        e.preventDefault();
+        window.history.pushState('', document.title, window.location.pathname + window.location.search);
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    });
+  }
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', () => {
+    const hash = window.location.hash;
+    if (hash) {
+      const targetElement = document.querySelector(hash);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  });
+}
+
 // Mobile Menu
 export function initMobileMenu() {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const navbar = document.querySelector('.navbar');
   const navItems = document.querySelectorAll('.nav-item');
+  const menuOverlay = document.getElementById('menuOverlay');
 
   if (!mobileMenuToggle) return;
 
@@ -34,6 +113,7 @@ export function initMobileMenu() {
     navbar.classList.remove('active');
     document.body.classList.remove('menu-open');
     mobileMenuToggle.setAttribute('aria-expanded', 'false');
+    if (menuOverlay) menuOverlay.classList.remove('active');
   };
 
   mobileMenuToggle.addEventListener('click', () => {
@@ -41,16 +121,22 @@ export function initMobileMenu() {
     navbar.classList.toggle('active');
     document.body.classList.toggle('menu-open');
     mobileMenuToggle.setAttribute('aria-expanded', isActive);
+    if (menuOverlay) menuOverlay.classList.toggle('active');
   });
+
+  // Close menu when clicking on overlay
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', closeMenu);
+  }
 
   // Swipe gesture to close menu
   let touchStartX = 0;
   let touchEndX = 0;
-  
+
   navbar.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
   }, { passive: true });
-  
+
   navbar.addEventListener('touchend', (e) => {
     touchEndX = e.changedTouches[0].screenX;
     if (touchEndX - touchStartX > 100) { // Swipe right > 100px

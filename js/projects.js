@@ -9,34 +9,49 @@ const ITEMS_PER_PAGE = 6;
 
 // Projects Data
 const allProjects = [
-  { 
-    icon: 'fab fa-docker', 
-    title: 'ECS Fargate Blue/Green Deployment', 
-    desc: 'Production-ready containerized deployment using AWS ECS Fargate with automated Blue/Green strategy via CodeDeploy, zero-downtime updates, and GitHub Actions CI/CD.', 
-    link: 'https://github.com/engabelal/ecs-fargate-terraform-deployment', 
+  {
+    icon: 'fab fa-docker',
+    title: 'ECS Fargate Blue/Green Deployment',
+    desc: 'Production-ready containerized deployment using AWS ECS Fargate with automated Blue/Green strategy via CodeDeploy, zero-downtime updates, and GitHub Actions CI/CD.',
+    link: 'https://github.com/engabelal/ecs-fargate-terraform-deployment',
     category: 'cicd',
+    metrics: {
+      performance: '100% uptime',
+      cost: '9 modules',
+      uptime: 'Zero downtime'
+    },
     problem: 'Container deployments causing downtime and lacking automated rollback capabilities',
     solution: 'Blue/Green deployment with CodeDeploy, modular Terraform (9 modules), GitHub Actions OIDC, and automated rollback on failure',
     techStack: ['ECS Fargate', 'CodeDeploy', 'Terraform', 'GitHub Actions', 'ALB', 'ECR', 'DynamoDB'],
     results: ['Zero downtime deployments', 'Automatic rollback', 'Serverless containers', '9 reusable Terraform modules']
   },
-  { 
-    icon: 'fab fa-node-js', 
-    title: 'Node.js CI/CD Pipeline', 
-    desc: 'GitHub Actions and Terraform pipeline delivering sub-15-second deployments, automated testing, and zero-downtime releases on AWS EC2.', 
-    link: 'https://github.com/engabelal/simple-nodejs-ec2-cicd', 
+  {
+    icon: 'fab fa-node-js',
+    title: 'Node.js CI/CD Pipeline',
+    desc: 'GitHub Actions and Terraform pipeline delivering sub-15-second deployments, automated testing, and zero-downtime releases on AWS EC2.',
+    link: 'https://github.com/engabelal/simple-nodejs-ec2-cicd',
     category: 'cicd',
+    metrics: {
+      performance: '85% faster',
+      cost: '15-sec deploy',
+      uptime: '100% consistent'
+    },
     problem: 'Manual deployments causing delays and inconsistencies across environments',
     solution: 'Automated CI/CD pipeline with GitHub Actions, Terraform IaC, and blue-green deployment strategy',
     techStack: ['GitHub Actions', 'Terraform', 'AWS EC2', 'Docker', 'Nginx'],
     results: ['85% faster deployment', 'Zero downtime releases', '100% environment consistency']
   },
-  { 
-    icon: 'fab fa-aws', 
-    title: 'AWS Serverless Event Platform', 
-    desc: 'EventBridge, Lambda, and DynamoDB stack codified as IaC—with CloudFront acceleration and automated environment provisioning.', 
-    link: 'https://github.com/engabelal/iac-aws-serverless-event', 
+  {
+    icon: 'fab fa-aws',
+    title: 'AWS Serverless Event Platform',
+    desc: 'EventBridge, Lambda, and DynamoDB stack codified as IaC—with CloudFront acceleration and automated environment provisioning.',
+    link: 'https://github.com/engabelal/iac-aws-serverless-event',
     category: 'serverless',
+    metrics: {
+      performance: '60% cost cut',
+      cost: 'Auto-scale',
+      uptime: '99.99%'
+    },
     problem: 'High infrastructure costs and maintenance overhead for event-driven applications',
     solution: 'Serverless architecture using EventBridge for event routing, Lambda for processing, and DynamoDB for storage',
     techStack: ['AWS Lambda', 'EventBridge', 'DynamoDB', 'CloudFront', 'API Gateway'],
@@ -138,6 +153,27 @@ function renderProjects() {
         <div class="project-list-content">
           <h3 class="project-list-title">${project.title}</h3>
           <p class="project-list-desc">${project.desc}</p>
+          ${project.metrics ? `
+            <div class="project-metrics">
+              ${project.metrics.performance ? `
+                <span class="metric-badge performance">
+                  ${project.metrics.performance}
+                </span>
+              ` : ''}
+              ${project.metrics.cost ? `
+                <span class="metric-badge cost">
+                  <i class="fas fa-dollar-sign"></i>
+                  ${project.metrics.cost}
+                </span>
+              ` : ''}
+              ${project.metrics.uptime ? `
+                <span class="metric-badge uptime">
+                  <i class="fas fa-check-circle"></i>
+                  ${project.metrics.uptime}
+                </span>
+              ` : ''}
+            </div>
+          ` : ''}
         </div>
         <button class="project-list-link project-details-btn" data-index="${i}">Details →</button>
       `;

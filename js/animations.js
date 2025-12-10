@@ -202,3 +202,160 @@ export function initWhatIDoAnimation(observer) {
     if (onpremText) observer.observe(onpremText);
   }, null, 'What I Do Animation');
 }
+
+/**
+ * Terminal Animation - Simulates terminal commands
+ */
+export function initTerminalAnimation() {
+  return safeExecute(() => {
+    const typedCommandEl = document.querySelector('.typed-command');
+    const outputEl = document.querySelector('.terminal-output');
+
+    if (!typedCommandEl || !outputEl) return;
+
+    const commands = [
+      {
+        cmd: 'whoami',
+        output: 'Ahmed Belal\nSenior Systems & Cloud Infrastructure Engineer | DevOps & Automation'
+      },
+      {
+        cmd: 'cat /etc/profile',
+        output: '12+ years automating enterprise-scale environments\nHigh-availability solutions with 99.9% uptime\nMulti-cloud architect across KSA and Egypt'
+      },
+      {
+        cmd: 'ls -la /skills/',
+        output: 'drwxr-xr-x  aws/          drwxr-xr-x  kubernetes/\ndrwxr-xr-x  azure/        drwxr-xr-x  terraform/\ndrwxr-xr-x  docker/       drwxr-xr-x  ansible/\ndrwxr-xr-x  linux/        drwxr-xr-x  ci-cd/'
+      },
+      {
+        cmd: 'docker compose ps',
+        output: 'SERVICE              STATUS       UPTIME\naws-infrastructure   healthy      365 days\nkubernetes-cluster   healthy      180 days\nci-cd-pipeline      healthy      90 days'
+      },
+      {
+        cmd: 'kubectl get pods -n production',
+        output: 'NAME                    READY   STATUS    RESTARTS\napi-deployment-7d9f8    2/2     Running   0\ndb-statefulset-0        1/1     Running   0\nmonitoring-stack-5c8    1/1     Running   0'
+      },
+      {
+        cmd: 'git log --oneline -4',
+        output: 'a3f5d2b Multi-cloud disaster recovery implemented\nc7e9b1a Kubernetes resource optimization\n2d4f8e3 Terraform AWS VPC automation\n9b1c6a5 GitLab CI/CD pipeline enhancement'
+      },
+      {
+        cmd: 'curl https://cloudycode.dev/status',
+        output: '✓ Infrastructure: Operational (99.97% uptime)\n✓ All services healthy | Zero incidents\n✓ Multi-region deployment active'
+      }
+    ];
+
+    let currentCommand = 0;
+
+    function typeCommand(text, callback) {
+      let i = 0;
+      typedCommandEl.textContent = '';
+      typedCommandEl.innerHTML = '';
+      const cursorEl = document.querySelector('.cursor-terminal');
+
+      // Hide cursor during typing
+      if (cursorEl) cursorEl.style.display = 'none';
+
+      function typeNextChar() {
+        if (i < text.length) {
+          const char = text[i];
+          const currentText = text.substring(0, i + 1);
+
+          // Create inline typing cursor
+          typedCommandEl.innerHTML = currentText + '<span class="typing-cursor"></span>';
+
+          i++;
+
+          // Variable typing speed for realism
+          let delay = 50 + Math.random() * 30; // 50-80ms base
+
+          // Slower after spaces and punctuation
+          if (char === ' ') delay += 20;
+          if (char === '/' || char === '-' || char === '.') delay += 15;
+
+          setTimeout(typeNextChar, delay);
+        } else {
+          // Typing complete - remove inline cursor, no cursor on command line
+          typedCommandEl.textContent = text;
+          setTimeout(callback, 500);
+        }
+      }
+
+      typeNextChar();
+    }
+
+    function showOutput(text, callback) {
+      outputEl.textContent = text;
+      setTimeout(callback, 3000);
+    }
+
+    function runNextCommand() {
+      if (currentCommand >= commands.length) {
+        currentCommand = 0;
+      }
+
+      const { cmd, output } = commands[currentCommand];
+
+      // Clear previous content
+      typedCommandEl.textContent = '';
+      outputEl.textContent = '';
+
+      typeCommand(cmd, () => {
+        showOutput(output, () => {
+          currentCommand++;
+          setTimeout(runNextCommand, 1000);
+        });
+      });
+    }
+
+    // Start animation
+    setTimeout(runNextCommand, 1000);
+  }, null, 'Terminal Animation');
+}
+
+/**
+ * Counter Animation - Animates numbers counting up
+ */
+export function initCounters() {
+  return safeExecute(() => {
+    const counters = document.querySelectorAll('[data-target]');
+    if (counters.length === 0) return;
+
+    const animateCounter = (counter) => {
+      const target = parseFloat(counter.getAttribute('data-target'));
+      const duration = 2000;
+      const increment = target / (duration / 16);
+      let current = 0;
+
+      const updateCounter = () => {
+        current += increment;
+        if (current < target) {
+          // Handle decimals properly
+          if (target % 1 !== 0) {
+            counter.textContent = current.toFixed(1);
+          } else {
+            counter.textContent = Math.floor(current);
+          }
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter.textContent = target;
+        }
+      };
+
+      updateCounter();
+    };
+
+    // Trigger on scroll into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.target.textContent === '0') {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+
+    counters.forEach(counter => observer.observe(counter));
+  }, null, 'Counter Animation');
+}

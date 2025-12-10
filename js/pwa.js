@@ -147,12 +147,23 @@ function hideInstallPrompt() {
 export function initSWUpdateNotification() {
   if (!('serviceWorker' in navigator)) return;
   
+  let updateShown = false;
+  
   navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (updateShown) return;
+    updateShown = true;
+    
     // Show update notification
     const updateHTML = `
       <div class="sw-update-notification" id="swUpdateNotification">
-        <p>New version available!</p>
-        <button class="sw-update-btn" onclick="window.location.reload()">Refresh</button>
+        <div class="sw-update-content">
+          <i class="fas fa-sync-alt sw-update-icon"></i>
+          <p>New version available!</p>
+          <div class="sw-update-actions">
+            <button class="sw-update-btn sw-update-btn-primary" onclick="window.location.reload()">Refresh Now</button>
+            <button class="sw-update-btn sw-update-btn-close" id="swUpdateClose">×</button>
+          </div>
+        </div>
       </div>
     `;
     
@@ -162,5 +173,26 @@ export function initSWUpdateNotification() {
       const notification = document.getElementById('swUpdateNotification');
       if (notification) notification.classList.add('show');
     }, 100);
+    
+    // Close button handler
+    const closeBtn = document.getElementById('swUpdateClose');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        const notification = document.getElementById('swUpdateNotification');
+        if (notification) {
+          notification.classList.remove('show');
+          setTimeout(() => notification.remove(), 300);
+        }
+      });
+    }
+    
+    // Auto-hide after 15 seconds
+    setTimeout(() => {
+      const notification = document.getElementById('swUpdateNotification');
+      if (notification && notification.classList.contains('show')) {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+      }
+    }, 15000);
   });
 }

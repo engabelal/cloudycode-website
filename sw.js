@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v6.0';
+const CACHE_VERSION = 'v6.2.9';
 const CACHE_NAME = `cloudycode-${CACHE_VERSION}`;
 const OFFLINE_PAGE = '/offline.html';
 

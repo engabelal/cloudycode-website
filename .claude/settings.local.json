@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(node -c:*)",
+      "Bash(curl:*)",
+      "Bash(for url in \"https://packer.io\" \"https://docker.com\" \"https://jenkins.io\" \"https://gnu.org/software/bash\" \"https://python.org\" \"https://linux.org\")",
+      "Bash(do echo -n \"$url: \")",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
