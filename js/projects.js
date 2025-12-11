@@ -7,6 +7,12 @@ const ANIMATION_CONFIG = {
 
 const ITEMS_PER_PAGE = 6;
 const PRERENDER_ATTR = 'prerendered';
+const CATEGORY_LABELS = {
+  cicd: 'CI/CD',
+  infrastructure: 'Infrastructure',
+  serverless: 'Serverless',
+  automation: 'Automation'
+};
 
 function slugify(title) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -200,37 +206,36 @@ function renderProjects() {
       item.dataset.slug = slugify(project.title);
       item.style.opacity = '0';
       item.style.cursor = 'pointer';
+
+      const categoryLabel = CATEGORY_LABELS[project.category] || 'Project';
+      const techChips = project.techStack ? project.techStack.slice(0, 4).map(tech => `<span>${tech}</span>`).join('') : '';
+
       item.innerHTML = `
-        <i class="${project.icon}"></i>
-        <div class="project-list-content">
-          <h3 class="project-list-title">${project.title}</h3>
-          <p class="project-list-desc">${project.desc}</p>
-          ${project.metrics ? `
-            <div class="project-metrics">
-              ${project.metrics.performance ? `
-                <span class="metric-badge performance">
-                  ${project.metrics.performance}
-                </span>
-              ` : ''}
-              ${project.metrics.cost ? `
-                <span class="metric-badge cost">
-                  <i class="fas fa-dollar-sign"></i>
-                  ${project.metrics.cost}
-                </span>
-              ` : ''}
-              ${project.metrics.uptime ? `
-                <span class="metric-badge uptime">
-                  <i class="fas fa-check-circle"></i>
-                  ${project.metrics.uptime}
-                </span>
-              ` : ''}
-            </div>
-          ` : ''}
+        <div class="project-ribbon">${categoryLabel}</div>
+        <div class="project-list-header">
+          <i class="${project.icon}"></i>
+          <div class="project-header-text">
+            <div class="project-category">${categoryLabel}</div>
+            <h3 class="project-list-title">${project.title}</h3>
+          </div>
         </div>
-        <button class="project-list-link project-details-btn" data-index="${i}">Details →</button>
+        <p class="project-list-desc">${project.desc}</p>
+        <div class="project-tech">${techChips}</div>
+        <div class="project-metrics-bar">
+          ${project.metrics?.performance ? `<span class="metric-badge performance">${project.metrics.performance}</span>` : ''}
+          ${project.metrics?.cost ? `<span class="metric-badge cost"><i class="fas fa-dollar-sign"></i>${project.metrics.cost}</span>` : ''}
+          ${project.metrics?.uptime ? `<span class="metric-badge uptime"><i class="fas fa-check-circle"></i>${project.metrics.uptime}</span>` : ''}
+          <button class="project-list-link project-details-btn" type="button">Details →</button>
+        </div>
       `;
-      
-      item.addEventListener('click', () => openProjectModal(project));
+
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('.project-details-btn')) {
+          openProjectModal(project);
+          return;
+        }
+        openProjectModal(project);
+      });
       container.appendChild(item);
     }
     

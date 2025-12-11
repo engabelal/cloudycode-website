@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects Section Concepts</title>
+  <link rel="stylesheet" href="../css/main.min.css">
+  <style>
+    body {
+      background: #0a0118;
+      color: #fff;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      padding: 4rem 0 6rem;
+    }
+    .concepts {
+      width: 92%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .concept-card {
+      position: relative;
+      border-radius: 1.2rem;
+      padding: 2rem;
+      background: rgba(17, 7, 31, 0.9);
+      border: 1px solid rgba(163, 98, 255, 0.2);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .concept-card h2 {
+      font-size: 2.1rem;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .concept-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(113, 39, 186, 0.25), rgba(0, 212, 255, 0.25));
+      border: 1px solid rgba(163, 98, 255, 0.35);
+      font-weight: 600;
+      width: fit-content;
+    }
+    .concept-card .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .concept-card .cta-row span {
+      padding: 0.8rem 1.2rem;
+      border-radius: 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 1.3rem;
+    }
+    .accent {
+      position: absolute;
+      inset: 0;
+      border-radius: 1.2rem;
+      background: radial-gradient(circle at 20% 20%, rgba(163, 98, 255, 0.22), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(0, 212, 255, 0.18), transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .concept-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .layout-preview {
+      display: grid;
+      gap: 0.8rem;
+    }
+    .layout-preview .block {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0.8rem;
+      height: 12px;
+    }
+    .layout-preview .block.wide { width: 100%; }
+    .layout-preview .block.med { width: 75%; }
+    .layout-preview .block.tall { height: 40px; }
+    .layout-preview .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+    .ribbons {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .ribbons span {
+      background: rgba(0, 212, 255, 0.15);
+      border: 1px solid rgba(0, 212, 255, 0.35);
+      color: #b5ecff;
+      padding: 0.5rem 1.1rem;
+      border-radius: 0.7rem;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div style="width:92%;max-width:1200px;margin:0 auto 2rem;">
+    <h1 style="font-size:2.6rem;margin:0 0 1rem;">Projects Section Concepts</h1>
+    <p style="opacity:0.82;max-width:800px;font-size:1.4rem;">Six layout directions for the projects block. Each concept keeps the current palette but varies structure, emphasis, and affordances. Pick one to apply to the main page.</p>
+  </div>
+
+  <div class="concepts">
+    <div class="concept-card">
+      <div class="accent"></div>
+      <div class="tag">Option A — Gradient Grid</div>
+      <h2>Glow cards with metric chips and hover lift.</h2>
+      <p>Three-column grid, dense but airy; cards use the purple/cyan gradient border, metric badges inline, and a small “View details” chevron.</p>
+      <div class="layout-preview grid">
+        <div class="block tall"></div><div class="block tall"></div><div class="block tall"></div>
+        <div class="block tall"></div><div class="block tall"></div><div class="block tall"></div>
+      </div>
+      <div class="cta-row">
+        <span>Use current filters row</span>
+        <span>Add subtle card glow on hover</span>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="accent"></div>
+      <div class="tag">Option B — Split Highlight</div>
+      <h2>Hero spotlight + compact list.</h2>
+      <p>Left: featured project with metrics and tags. Right: vertical list of two-sentence blurbs; selecting swaps the hero image/metrics.</p>
+      <div class="layout-preview">
+        <div class="block wide tall"></div>
+        <div class="block med tall"></div>
+        <div class="block med"></div>
+      </div>
+      <div class="cta-row">
+        <span>1 featured + 4 quick picks</span>
+        <span>Keyboard-focusable list</span>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="accent"></div>
+      <div class="tag">Option C — Timeline Stories</div>
+      <h2>Vertical milestones with outcomes.</h2>
+      <p>Left rail shows year/stack icon; right panel has problem → solution → result bullets, with slim connectors and progress dots.</p>
+      <div class="layout-preview">
+        <div class="block med"></div>
+        <div class="block wide"></div>
+        <div class="block wide"></div>
+      </div>
+      <div class="cta-row">
+        <span>Focus on before/after</span>
+        <span>Great for case-study tone</span>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="accent"></div>
+      <div class="tag">Option D — Masonry + Ribbons</div>
+      <h2>Staggered cards with tech ribbons.</h2>
+      <p>Asymmetric masonry feel; each card has a top ribbon for category, bottom strip for metrics. Adds variety while keeping readability.</p>
+      <div class="layout-preview grid">
+        <div class="block tall"></div><div class="block med"></div><div class="block tall"></div>
+      </div>
+      <div class="ribbons">
+        <span>CI/CD</span><span>Infra</span><span>Serverless</span><span>Automation</span>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="accent"></div>
+      <div class="tag">Option E — Metric-First</div>
+      <h2>Pill filters + big metric badges.</h2>
+      <p>Filters as neon pills; cards lead with three metric badges, then a one-liner and “view playbook” link. Prioritizes outcomes.</p>
+      <div class="layout-preview">
+        <div class="block wide"></div>
+        <div class="block med"></div>
+        <div class="block wide"></div>
+      </div>
+      <div class="cta-row">
+        <span>Hero badges</span>
+        <span>Outcome-first copy</span>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="accent"></div>
+      <div class="tag">Option F — Carousel Spotlight</div>
+      <h2>Single-card carousel with stacked metrics.</h2>
+      <p>One large card with Lottie thumbnail or static image, stacked metric chips, and arrows/dots for navigation. Minimal grid, high focus.</p>
+      <div class="layout-preview">
+        <div class="block wide tall"></div>
+        <div class="block med"></div>
+      </div>
+      <div class="cta-row">
+        <span>Great for featured-only</span>
+        <span>Keyboard + swipe</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
