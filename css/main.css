@@ -2460,7 +2460,8 @@ main#main .work-experience .skills .space-skills .space-skills-image {
   }
 
   .tech-stack-icons .dev-icons {
-    justify-content: center;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
   }
 
   .skills-text-list {
@@ -3622,6 +3623,7 @@ footer#page-footer {
 
 .what-i-do-text {
   flex: 1;
+  max-width: 650px;
   opacity: 0;
   transform: translateX(100px);
   transition: all 0.8s ease;
@@ -3682,8 +3684,10 @@ footer#page-footer {
 }
 
 .tech-stack-icons .dev-icons {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   gap: 1.5rem;
-  justify-content: flex-start;
+  justify-items: center;
 }
 
 .tech-stack-icons .software-skill-inline {
@@ -3757,12 +3761,71 @@ footer#page-footer {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  max-width: 100%;
 }
 
 .skills-text {
   font-size: 1.8rem;
   color: var(--white);
   font-family: var(--font-inter);
+}
+
+/* Checkbox Achievement Style for Skills */
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(113, 39, 186, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+  background: rgba(113, 39, 186, 0.1);
+  transform: translateY(-3px);
+}
+
+.achievement-checkbox {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--purple-light);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.achievement-item:hover .achievement-checkbox {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(163, 98, 255, 0.6);
+}
+
+/* CSS Checkmark */
+.achievement-checkbox::before {
+  content: '';
+  position: absolute;
+  width: 0.35rem;
+  height: 0.8rem;
+  border: solid #ffffff;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+  top: 50%;
+  left: 50%;
+  margin-top: -0.5rem;
+  margin-left: -0.15rem;
+}
+
+.achievement-checkbox i {
+  display: none;
+}
+
+.achievement-text {
+  font-size: 1.6rem;
 }
 
 @media screen and (max-width: 1024px) {
@@ -3813,12 +3876,31 @@ footer#page-footer {
     align-items: flex-start;
   }
 
+  .achievement-item {
+    padding: 1.3rem;
+    gap: 1.2rem;
+  }
+
+  .achievement-checkbox {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .achievement-checkbox i {
+    font-size: 1rem;
+  }
+
+  .achievement-text {
+    font-size: 1.4rem;
+  }
+
   .what-i-do-text {
     text-align: left;
   }
 
   .tech-stack-icons .dev-icons {
-    justify-content: center;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
   }
 
   .tech-stack-icons .software-skill-inline {
@@ -3865,13 +3947,36 @@ footer#page-footer {
     line-height: 1.6;
   }
 
+  .achievement-item {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+
+  .achievement-checkbox {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .achievement-checkbox i {
+    font-size: 0.9rem;
+  }
+
+  .achievement-text {
+    font-size: 1.3rem;
+  }
+
+  .achievement-item:hover {
+    transform: translateY(-2px);
+  }
+
   .tech-stack-icons .software-skill-inline {
     font-size: 2.5rem;
   }
 
   .tech-stack-icons .dev-icons {
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.8rem;
-    justify-content: center;
+    justify-items: center;
   }
 }
 
