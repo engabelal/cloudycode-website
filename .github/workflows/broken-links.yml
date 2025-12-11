@@ -14,5 +14,7 @@ jobs:
       - name: Check links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: --verbose --no-progress './**/*.html' './**/*.md'
+          args: --verbose --no-progress --max-retries 3 --retry-wait-time 5 --timeout 10 './**/*.html' './**/*.md'
           fail: true
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
