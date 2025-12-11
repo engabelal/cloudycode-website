@@ -6,6 +6,17 @@ const ANIMATION_CONFIG = {
 };
 
 const ITEMS_PER_PAGE = 6;
+const PRERENDER_ATTR = 'prerendered';
+
+function slugify(title) {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+function findProjectBySlug(slug) {
+  return allProjects.find(
+    (project) => slugify(project.title) === slug
+  );
+}
 
 // Projects Data
 const allProjects = [
@@ -117,10 +128,41 @@ const allProjects = [
 let currentIndex = 0;
 let currentFilter = 'all';
 
+function attachProjectListDelegation() {
+  const container = document.getElementById('projectsList');
+  if (!container) return;
+
+  container.addEventListener('click', (e) => {
+    const card = e.target.closest('.project-list-item');
+    if (!card) return;
+
+    const slug = card.dataset.slug;
+    const project = slug ? findProjectBySlug(slug) : null;
+    if (project) {
+      openProjectModal(project);
+    }
+  });
+}
+
 function getFilteredProjects() {
   return currentFilter === 'all' 
     ? allProjects 
     : allProjects.filter(p => p.category === currentFilter);
+}
+
+function updateLoadMoreButton(totalProjects) {
+  const btn = document.getElementById('loadMoreBtn');
+  if (!btn) return;
+
+  if (totalProjects <= ITEMS_PER_PAGE) {
+    btn.style.display = 'none';
+    return;
+  }
+
+  btn.style.display = 'inline-block';
+  btn.textContent = (currentIndex === 0 || currentIndex >= totalProjects)
+    ? 'Show Previous'
+    : 'Load More Projects';
 }
 
 function renderProjects() {
@@ -132,6 +174,15 @@ function renderProjects() {
     }
     
     const filteredProjects = getFilteredProjects();
+
+    // If we shipped server-rendered items, keep them for the initial all-projects view
+    if (container.dataset[PRERENDER_ATTR] === 'true' && currentFilter === 'all' && currentIndex === 0) {
+      container.dataset[PRERENDER_ATTR] = 'false';
+      container.style.opacity = '1';
+      currentIndex = Math.min(container.children.length, filteredProjects.length);
+      updateLoadMoreButton(filteredProjects.length);
+      return;
+    }
     
     // Smooth fade out
     container.style.transition = `opacity ${ANIMATION_CONFIG.FADE_DURATION}ms ease`;
@@ -146,6 +197,7 @@ function renderProjects() {
       const project = filteredProjects[i];
       const item = document.createElement('div');
       item.className = 'project-list-item';
+      item.dataset.slug = slugify(project.title);
       item.style.opacity = '0';
       item.style.cursor = 'pointer';
       item.innerHTML = `
@@ -196,15 +248,7 @@ function renderProjects() {
     });
     
     currentIndex = (end >= filteredProjects.length) ? 0 : end;
-    const btn = document.getElementById('loadMoreBtn');
-    if (btn) {
-      if (filteredProjects.length <= ITEMS_PER_PAGE) {
-        btn.style.display = 'none';
-      } else {
-        btn.style.display = 'inline-block';
-        btn.textContent = (currentIndex === 0) ? 'Show Previous' : 'Load More Projects';
-      }
-    }
+    updateLoadMoreButton(filteredProjects.length);
     }, ANIMATION_CONFIG.FADE_DURATION);
   } catch (error) {
     console.error('Error rendering projects:', error);
@@ -365,6 +409,7 @@ try {
   }
   
   // Initial render
+  attachProjectListDelegation();
   renderProjects();
 } catch (error) {
   console.error('Error initializing project modal:', error);
