@@ -102,60 +102,90 @@ export function initSmoothNavigation() {
 // Mobile Menu
 export function initMobileMenu() {
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-  const navbar = document.querySelector('.navbar');
-  const navItems = document.querySelectorAll('.nav-item');
-  const menuOverlay = document.getElementById('menuOverlay');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const navLinks = document.querySelectorAll('.mobile-menu-overlay .nav__link');
 
-  if (!mobileMenuToggle) return;
+  if (!mobileMenuToggle || !mobileMenuOverlay) return;
 
   const closeMenu = () => {
     mobileMenuToggle.classList.remove('active');
-    navbar.classList.remove('active');
+    mobileMenuOverlay.classList.remove('active');
     document.body.classList.remove('menu-open');
     mobileMenuToggle.setAttribute('aria-expanded', 'false');
-    if (menuOverlay) menuOverlay.classList.remove('active');
   };
 
-  mobileMenuToggle.addEventListener('click', () => {
-    const isActive = mobileMenuToggle.classList.toggle('active');
-    navbar.classList.toggle('active');
-    document.body.classList.toggle('menu-open');
-    mobileMenuToggle.setAttribute('aria-expanded', isActive);
-    if (menuOverlay) menuOverlay.classList.toggle('active');
+  const openMenu = () => {
+    mobileMenuToggle.classList.add('active');
+    mobileMenuOverlay.classList.add('active');
+    document.body.classList.add('menu-open');
+    mobileMenuToggle.setAttribute('aria-expanded', 'true');
+  };
+
+  // Toggle menu on burger button click
+  mobileMenuToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const isActive = mobileMenuToggle.classList.contains('active');
+    if (isActive) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
-  // Close menu when clicking on overlay
-  if (menuOverlay) {
-    menuOverlay.addEventListener('click', closeMenu);
-  }
-
-  // Swipe gesture to close menu
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  navbar.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  navbar.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    if (touchEndX - touchStartX > 100) { // Swipe right > 100px
+  // Close menu when clicking on overlay background (not on nav items)
+  mobileMenuOverlay.addEventListener('click', (e) => {
+    if (e.target === mobileMenuOverlay) {
       closeMenu();
     }
-  }, { passive: true });
+  });
 
-  // Close menu when clicking nav items
-  navItems.forEach((item) => {
-    item.addEventListener('click', closeMenu);
-    // Add loaded class after animation completes
-    item.addEventListener('animationend', () => {
-      item.classList.add('loaded');
-    }, { once: true });
+  // Close menu when clicking nav items and handle smooth scroll
+  navLinks.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const href = link.getAttribute('href');
+
+      // Close menu first
+      closeMenu();
+
+      // Use setTimeout to allow menu animation to start before scrolling
+      setTimeout(() => {
+        // Handle home/main link - remove hash and scroll to top
+        if (href === '#main') {
+          window.history.pushState('', document.title, window.location.pathname + window.location.search);
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+          return;
+        }
+
+        // Handle other section links with smooth scroll
+        if (href && href.startsWith('#')) {
+          const targetId = href.substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            // Update URL hash
+            window.history.pushState(null, null, href);
+
+            // Smooth scroll to target
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      }, 100);
+    });
   });
 
   // Close menu on escape key
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navbar.classList.contains('active')) {
+    if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) {
       closeMenu();
     }
   });
