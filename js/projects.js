@@ -6,6 +6,23 @@ const ANIMATION_CONFIG = {
 };
 
 const ITEMS_PER_PAGE = 6;
+const PRERENDER_ATTR = 'prerendered';
+const CATEGORY_LABELS = {
+  cicd: 'CI/CD',
+  infrastructure: 'Infrastructure',
+  serverless: 'Serverless',
+  automation: 'Automation'
+};
+
+function slugify(title) {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+function findProjectBySlug(slug) {
+  return allProjects.find(
+    (project) => slugify(project.title) === slug
+  );
+}
 
 // Projects Data
 const allProjects = [
@@ -57,56 +74,78 @@ const allProjects = [
     techStack: ['AWS Lambda', 'EventBridge', 'DynamoDB', 'CloudFront', 'API Gateway'],
     results: ['60% cost reduction', 'Auto-scaling to zero', '99.99% availability']
   },
-  { 
-    icon: 'fas fa-server', 
-    title: 'Auto-Scaling Web Infrastructure', 
-    desc: 'Terraform-built AWS blueprint combining EC2 Auto Scaling, Network Load Balancers, and multi-AZ failover for resilient web tiers.', 
-    link: 'https://github.com/engabelal/simple-webapp-ec2-nlb-asg', 
+  {
+    icon: 'fas fa-server',
+    title: 'Auto-Scaling Web Infrastructure',
+    desc: 'Terraform-built AWS blueprint combining EC2 Auto Scaling, Network Load Balancers, and multi-AZ failover for resilient web tiers.',
+    link: 'https://github.com/engabelal/simple-webapp-ec2-nlb-asg',
     category: 'infrastructure',
+    metrics: {
+      performance: '5x capacity',
+      uptime: '99.9% uptime'
+    },
     problem: 'Web application unable to handle traffic spikes and single point of failure',
     solution: 'Multi-AZ architecture with auto-scaling groups, network load balancers, and health checks',
     techStack: ['Terraform', 'AWS EC2', 'Auto Scaling', 'NLB', 'CloudWatch'],
     results: ['5x traffic capacity', '99.9% uptime', 'Automatic failover']
   },
-  { 
-    icon: 'fas fa-cogs', 
-    title: 'MERN Stack Automation', 
-    desc: 'Idempotent Ansible playbooks provisioning MongoDB, Express, React, and Node with hardened configurations and repeatable rollouts.', 
-    link: 'https://github.com/engabelal/cm-ansible-mern-stack', 
+  {
+    icon: 'fas fa-cogs',
+    title: 'MERN Stack Automation',
+    desc: 'Idempotent Ansible playbooks provisioning MongoDB, Express, React, and Node with hardened configurations and repeatable rollouts.',
+    link: 'https://github.com/engabelal/cm-ansible-mern-stack',
     category: 'automation',
+    metrics: {
+      performance: '90% faster',
+      uptime: 'Zero drift'
+    },
     problem: 'Inconsistent MERN stack deployments and configuration drift across servers',
     solution: 'Idempotent Ansible playbooks with role-based configuration and automated security hardening',
     techStack: ['Ansible', 'MongoDB', 'Express.js', 'React', 'Node.js'],
     results: ['90% faster provisioning', 'Zero configuration drift', 'Repeatable deployments']
   },
-  { 
-    icon: 'fas fa-box', 
-    title: 'Hardened DevOps AMI', 
-    desc: 'Packer pipeline producing CIS-aligned Ubuntu AMIs preloaded with DevOps tooling, CloudWatch telemetry, and guardrails.', 
-    link: 'https://github.com/engabelal/packer-aws-devops-ami', 
+  {
+    icon: 'fas fa-box',
+    title: 'Hardened DevOps AMI',
+    desc: 'Packer pipeline producing CIS-aligned Ubuntu AMIs preloaded with DevOps tooling, CloudWatch telemetry, and guardrails.',
+    link: 'https://github.com/engabelal/packer-aws-devops-ami',
     category: 'infrastructure',
+    metrics: {
+      performance: '70% faster boot',
+      uptime: 'Hardened'
+    },
     problem: 'Security vulnerabilities and slow instance launch times due to runtime installations',
     solution: 'Pre-baked AMIs with CIS benchmarks, DevOps tools, and monitoring agents using Packer',
     techStack: ['Packer', 'AWS AMI', 'Ubuntu', 'CloudWatch', 'CIS Benchmarks'],
     results: ['70% faster boot time', 'CIS Level 1 compliant', 'Standardized tooling']
   },
-  { 
-    icon: 'fas fa-layer-group', 
-    title: 'Terraform Layered MERN with RDS', 
-    desc: 'Multi-tier Terraform architecture deploying MERN stack with RDS MySQL, VPC isolation, and production-grade networking.', 
-    link: 'https://github.com/engabelal/terraform-layered-mern-rds', 
+  {
+    icon: 'fas fa-layer-group',
+    title: 'Terraform Layered MERN with RDS',
+    desc: 'Multi-tier Terraform architecture deploying MERN stack with RDS MySQL, VPC isolation, and production-grade networking.',
+    link: 'https://github.com/engabelal/terraform-layered-mern-rds',
     category: 'infrastructure',
+    metrics: {
+      performance: 'Multi-tier',
+      cost: 'Modular IaC',
+      uptime: 'Auto backups'
+    },
     problem: 'Complex multi-tier application requiring secure network isolation and managed database',
     solution: 'Layered Terraform modules with VPC isolation, private subnets, and RDS MySQL with automated backups',
     techStack: ['Terraform', 'AWS VPC', 'RDS MySQL', 'EC2', 'Security Groups'],
     results: ['Network isolation', 'Automated backups', 'Modular IaC design']
   },
-  { 
-    icon: 'fas fa-terminal', 
-    title: 'CloudOps Scripts Kit', 
-    desc: 'Production-ready shell toolkit for AWS auditing, cost optimisation, and day-two operations automation.', 
-    link: 'https://github.com/engabelal/abcloudops-scripts-kit', 
+  {
+    icon: 'fas fa-terminal',
+    title: 'CloudOps Scripts Kit',
+    desc: 'Production-ready shell toolkit for AWS auditing, cost optimisation, and day-two operations automation.',
+    link: 'https://github.com/engabelal/abcloudops-scripts-kit',
     category: 'automation',
+    metrics: {
+      performance: '80% time saved',
+      cost: '20% cost cut',
+      uptime: 'Compliance'
+    },
     problem: 'Manual AWS operations consuming time and prone to human errors',
     solution: 'Automated shell scripts for common AWS operations, cost analysis, and security auditing',
     techStack: ['Bash', 'AWS CLI', 'jq', 'Python', 'CloudWatch'],
@@ -117,10 +156,48 @@ const allProjects = [
 let currentIndex = 0;
 let currentFilter = 'all';
 
+function attachProjectListDelegation() {
+  const container = document.getElementById('projectsList');
+  if (!container) return;
+
+  container.addEventListener('click', (e) => {
+    const card = e.target.closest('.project-list-item');
+    if (!card) return;
+
+    const slug = card.dataset.slug;
+    const project = slug ? findProjectBySlug(slug) : null;
+    if (project) {
+      openProjectModal(project);
+    }
+  });
+}
+
 function getFilteredProjects() {
   return currentFilter === 'all' 
     ? allProjects 
     : allProjects.filter(p => p.category === currentFilter);
+}
+
+function updateLoadMoreButton(totalProjects) {
+  const btn = document.getElementById('loadMoreBtn');
+  if (!btn) return;
+
+  // Hide button when showing "All Projects" (no pagination)
+  if (currentFilter === 'all') {
+    btn.style.display = 'none';
+    return;
+  }
+
+  // Hide button if filtered results are less than or equal to items per page
+  if (totalProjects <= ITEMS_PER_PAGE) {
+    btn.style.display = 'none';
+    return;
+  }
+
+  btn.style.display = 'inline-block';
+  btn.textContent = (currentIndex === 0 || currentIndex >= totalProjects)
+    ? 'Show Previous'
+    : 'Load More Projects';
 }
 
 function renderProjects() {
@@ -132,6 +209,28 @@ function renderProjects() {
     }
     
     const filteredProjects = getFilteredProjects();
+
+    // If we shipped server-rendered items, keep them ONLY for the very first load
+    if (container.dataset[PRERENDER_ATTR] === 'true' && currentFilter === 'all' && currentIndex === 0) {
+      container.dataset[PRERENDER_ATTR] = 'false';
+      container.style.opacity = '1';
+      // Don't set currentIndex since we want to show all projects
+      currentIndex = 0;
+      updateLoadMoreButton(filteredProjects.length);
+
+      // If prerendered items are less than total, render all projects
+      if (container.children.length < filteredProjects.length) {
+        // Re-render to show all projects
+        container.dataset[PRERENDER_ATTR] = 'false';
+      } else {
+        return;
+      }
+    }
+
+    // Mark as no longer prerendered if switching filters
+    if (container.dataset[PRERENDER_ATTR] === 'true') {
+      container.dataset[PRERENDER_ATTR] = 'false';
+    }
     
     // Smooth fade out
     container.style.transition = `opacity ${ANIMATION_CONFIG.FADE_DURATION}ms ease`;
@@ -140,45 +239,50 @@ function renderProjects() {
     setTimeout(() => {
       container.innerHTML = '';
       const start = currentIndex;
-      const end = Math.min(start + ITEMS_PER_PAGE, filteredProjects.length);
-    
+      // When showing "All Projects", display all projects without pagination
+      // When filtering by category, show filtered projects
+      const end = currentFilter === 'all'
+        ? filteredProjects.length
+        : Math.min(start + ITEMS_PER_PAGE, filteredProjects.length);
+
     for (let i = start; i < end; i++) {
       const project = filteredProjects[i];
       const item = document.createElement('div');
       item.className = 'project-list-item';
+      item.dataset.slug = slugify(project.title);
       item.style.opacity = '0';
       item.style.cursor = 'pointer';
+
+      const categoryLabel = CATEGORY_LABELS[project.category] || 'Project';
+      const techChips = project.techStack ? project.techStack.slice(0, 4).map(tech => `<span>${tech}</span>`).join('') : '';
+
       item.innerHTML = `
-        <i class="${project.icon}"></i>
-        <div class="project-list-content">
-          <h3 class="project-list-title">${project.title}</h3>
-          <p class="project-list-desc">${project.desc}</p>
-          ${project.metrics ? `
-            <div class="project-metrics">
-              ${project.metrics.performance ? `
-                <span class="metric-badge performance">
-                  ${project.metrics.performance}
-                </span>
-              ` : ''}
-              ${project.metrics.cost ? `
-                <span class="metric-badge cost">
-                  <i class="fas fa-dollar-sign"></i>
-                  ${project.metrics.cost}
-                </span>
-              ` : ''}
-              ${project.metrics.uptime ? `
-                <span class="metric-badge uptime">
-                  <i class="fas fa-check-circle"></i>
-                  ${project.metrics.uptime}
-                </span>
-              ` : ''}
-            </div>
-          ` : ''}
+        <div class="project-ribbon">${categoryLabel}</div>
+        <div class="project-list-header">
+          <i class="${project.icon}"></i>
+          <div class="project-header-text">
+            <h3 class="project-list-title">${project.title}</h3>
+          </div>
         </div>
-        <button class="project-list-link project-details-btn" data-index="${i}">Details →</button>
+        <p class="project-list-desc">${project.desc}</p>
+        <div class="project-tech">${techChips}</div>
+        <div class="project-metrics-bar">
+          <div class="metrics-badges-group">
+            ${project.metrics?.performance ? `<span class="metric-badge performance">${project.metrics.performance}</span>` : ''}
+            ${project.metrics?.cost ? `<span class="metric-badge cost"><i class="fas fa-dollar-sign"></i>${project.metrics.cost}</span>` : ''}
+            ${project.metrics?.uptime ? `<span class="metric-badge uptime"><i class="fas fa-check-circle"></i>${project.metrics.uptime}</span>` : ''}
+          </div>
+          <button class="project-list-link project-details-btn" type="button">Details →</button>
+        </div>
       `;
-      
-      item.addEventListener('click', () => openProjectModal(project));
+
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('.project-details-btn')) {
+          openProjectModal(project);
+          return;
+        }
+        openProjectModal(project);
+      });
       container.appendChild(item);
     }
     
@@ -195,16 +299,15 @@ function renderProjects() {
       });
     });
     
-    currentIndex = (end >= filteredProjects.length) ? 0 : end;
-    const btn = document.getElementById('loadMoreBtn');
-    if (btn) {
-      if (filteredProjects.length <= ITEMS_PER_PAGE) {
-        btn.style.display = 'none';
-      } else {
-        btn.style.display = 'inline-block';
-        btn.textContent = (currentIndex === 0) ? 'Show Previous' : 'Load More Projects';
-      }
+    // For "all" filter, keep index at 0 (no pagination)
+    // For specific filters, update index for pagination
+    if (currentFilter === 'all') {
+      currentIndex = 0;
+    } else {
+      currentIndex = (end >= filteredProjects.length) ? 0 : end;
     }
+
+    updateLoadMoreButton(filteredProjects.length);
     }, ANIMATION_CONFIG.FADE_DURATION);
   } catch (error) {
     console.error('Error rendering projects:', error);
@@ -365,6 +468,7 @@ try {
   }
   
   // Initial render
+  attachProjectListDelegation();
   renderProjects();
 } catch (error) {
   console.error('Error initializing project modal:', error);

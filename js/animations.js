@@ -42,6 +42,13 @@ export function initTypingEffect() {
     'Automated, resilient, and brilliantly efficient'
   ];
   
+  // Respect reduced motion preferences
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    typedTextSpan.textContent = texts[0];
+    return;
+  }
+  
   let textIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
@@ -319,6 +326,13 @@ export function initCounters() {
   return safeExecute(() => {
     const counters = document.querySelectorAll('[data-target]');
     if (counters.length === 0) return;
+
+    // Skip animation when users prefer reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      counters.forEach(counter => counter.textContent = counter.getAttribute('data-target'));
+      return;
+    }
 
     const animateCounter = (counter) => {
       const target = parseFloat(counter.getAttribute('data-target'));
