@@ -1139,8 +1139,17 @@ p {
     border-color: var(--purple-light);
   }
 
-  /* Hide desktop navbar on mobile - burger menu replaces it */
+  /* Show navbar initially on mobile, hide when scrolled */
   #page-header .header-wrapper .navbar {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  #page-header.scrolled .header-wrapper .navbar {
     display: none !important;
   }
 
