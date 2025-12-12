@@ -24,7 +24,7 @@ EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
 
 ### For building ARM64 image locally, use the following command:
-# docker buildx build --platform linux/arm64 -t engabelal/cloudycode-dev-preview:arm-v2 -f docker/Dockerfile . --load
+# docker buildx build --platform linux/arm64 -t engabelal/cloudycode-dev-preview:arm-v2 -f docker/Dockerfile . --push
 
 
 

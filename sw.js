@@ -1,4 +1,5 @@
-const CACHE_VERSION = 'v6.4.2';
+// IMPORTANT: Keep this version in sync with config/site.config.js
+const CACHE_VERSION = 'v6.4.6';
 const CACHE_NAME = `cloudycode-${CACHE_VERSION}`;
 const OFFLINE_PAGE = '/offline.html';
 
@@ -16,6 +17,8 @@ const CRITICAL_ASSETS = [
   '/js/error-handler.js',
   '/js/projects.js',
   '/js/keyboard-nav.js',
+  '/js/version.js',
+  '/config/site.config.js',
   '/images/avatar.webp',
   '/images/cloudycode-light.webp',
   '/images/loading.svg',

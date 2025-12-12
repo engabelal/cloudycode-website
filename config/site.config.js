@@ -53,7 +53,9 @@ const siteConfig = {
   },
   
   // Version
-  version: '6.2.7',
+  // IMPORTANT: When updating this version, also update CACHE_VERSION in sw.js
+  // This is the single source of truth for the site version displayed in the footer
+  version: '6.4.6',
 };
 
 // Export for use in other files

@@ -27,6 +27,7 @@ import {
   initNetworkMonitor
 } from './error-handler.js';
 import { initPWA, initSWUpdateNotification } from './pwa.js';
+import { initVersion } from './version.js';
 
 // Scroll Animation Observer
 const observer = createObserver((entries) => {
@@ -78,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyCTA();
   initBackToTop();
   initModalEscapeHandler();
-  
+  initVersion();
+
   // Re-check images after DOM is fully loaded
   setTimeout(initImageErrorHandlers, IMAGE_ERROR_RECHECK_DELAY);
 });
