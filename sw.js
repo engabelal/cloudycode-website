@@ -1,5 +1,5 @@
 // IMPORTANT: Keep this version in sync with config/site.config.js
-const CACHE_VERSION = 'v6.4.6';
+const CACHE_VERSION = 'v6.5.0';
 const CACHE_NAME = `cloudycode-${CACHE_VERSION}`;
 const OFFLINE_PAGE = '/offline.html';
 
@@ -8,21 +8,26 @@ const CRITICAL_ASSETS = [
   '/',
   '/index.html',
   '/offline.html',
-  '/css/main.css',
+  '/css/main.min.css',
+  '/css/fonts-local.css',
   '/css/fontawesome-subset.css',
-  '/js/main.js',
-  '/js/utils.js',
-  '/js/ui.js',
-  '/js/animations.js',
-  '/js/error-handler.js',
-  '/js/projects.js',
-  '/js/keyboard-nav.js',
-  '/js/version.js',
+  '/css/project-modal.css',
+  '/css/aos.css',
+  '/js/main.min.js',
+  '/js/utils.min.js',
+  '/js/ui.min.js',
+  '/js/animations.min.js',
+  '/js/error-handler.min.js',
+  '/js/projects.min.js',
+  '/js/keyboard-nav.min.js',
+  '/js/version.min.js',
+  '/js/pwa.min.js',
   '/config/site.config.js',
   '/images/avatar.webp',
   '/images/cloudycode-light.webp',
   '/images/loading.svg',
   '/images/favicon.svg',
+  '/images/arrow.webp',
   '/manifest.json'
 ];
 

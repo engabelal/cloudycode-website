@@ -6,7 +6,10 @@
 
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self' https://plausible.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=()" />
 
     <!-- Primary Meta Tags -->
     <title>CloudyCode.dev – Ahmed Belal | DevOps & Cloud Engineer</title>
@@ -48,14 +51,19 @@
     </style>
 
 
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <!-- Performance Resource Hints -->
+    <link rel="dns-prefetch" href="https://plausible.io" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://plausible.io" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 
     <!-- Local Fonts -->
     <link rel="stylesheet" href="./css/fonts-local.css" />
 
+    <!-- Preload Critical Assets -->
     <link rel="preload" href="./images/avatar.webp" as="image" />
     <link rel="preload" href="./images/cloudycode-light.webp" as="image" />
+    <link rel="preload" href="./css/main.min.css?v=6.4.2" as="style" />
 
     <!-- Defer non-critical CSS -->
     <link rel="stylesheet" href="./css/main.min.css?v=6.4.2" media="print" onload="this.media='all'" />
@@ -72,8 +80,35 @@
 
 
 
-    <!-- Lottie Player -->
-    <script src="./js/lottie-player.js" defer></script>
+    <!-- Lottie Player - Lazy loaded for better performance -->
+    <script>
+      // Lazy load lottie-player only when needed
+      if ('IntersectionObserver' in window) {
+        const lottieObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !window.lottieLoaded) {
+              window.lottieLoaded = true;
+              const script = document.createElement('script');
+              script.src = './js/lottie-player.js';
+              script.defer = true;
+              document.head.appendChild(script);
+              lottieObserver.disconnect();
+            }
+          });
+        }, { rootMargin: '50px' });
+
+        window.addEventListener('DOMContentLoaded', () => {
+          const lottieElements = document.querySelectorAll('lottie-player');
+          lottieElements.forEach(el => lottieObserver.observe(el));
+        });
+      } else {
+        // Fallback for older browsers
+        const script = document.createElement('script');
+        script.src = './js/lottie-player.js';
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+    </script>
   </head>
   <body>
     <!-- Particles Background -->
@@ -926,9 +961,9 @@
 
     <script src="./js/particles.min.js" defer></script>
     <script src="./js/aos.js" defer></script>
-    <script src="./js/main.js?v=6.4.2" type="module"></script>
-    <script src="./js/projects.js?v=6.4.2" defer></script>
-    <script src="./js/keyboard-nav.js?v=6.4.2" defer></script>
+    <script src="./js/main.min.js?v=6.5.0" type="module"></script>
+    <script src="./js/projects.min.js?v=6.5.0" defer></script>
+    <script src="./js/keyboard-nav.min.js?v=6.5.0" defer></script>
 
     <!-- Service Worker -->
     <script defer>

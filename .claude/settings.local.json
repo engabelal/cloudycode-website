@@ -9,7 +9,9 @@
       "Bash(done)",
       "Bash(npx clean-css-cli:*)",
       "Bash(python3:*)",
-      "Bash(bun run:*)"
+      "Bash(bun run:*)",
+      "Bash(cat:*)",
+      "Bash(npx terser:*)"
     ],
     "deny": [],
     "ask": []

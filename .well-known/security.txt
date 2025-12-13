@@ -1,4 +1,14 @@
-Contact: mailto:eng.abelal@gmail.com
-Expires: 2026-11-12T00:00:00.000Z
-Preferred-Languages: en, ar
+Contact: mailto:ahmedbelal@cloudycode.dev
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en
 Canonical: https://cloudycode.dev/.well-known/security.txt
+
+# CloudyCode.dev Security Policy
+#
+# If you discover a security vulnerability, please report it responsibly:
+#
+# 1. Email: ahmedbelal@cloudycode.dev
+# 2. Include: Description, steps to reproduce, and potential impact
+# 3. Allow reasonable time for response before public disclosure
+#
+# Thank you for helping keep CloudyCode.dev secure!
