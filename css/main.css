@@ -4146,10 +4146,18 @@ footer#page-footer {
   color: var(--white);
   white-space: nowrap;
   font-family: var(--font-plus-jakarta-sans);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.skills-subheading::before,
+.skills-subheading::after {
+  content: '';
+  flex: 1;
+  height: 2px;
   background: var(--gradient-accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  max-width: 80px;
 }
 
 .tech-stack-icons {
@@ -4331,7 +4339,12 @@ footer#page-footer {
   .skills-subheading {
     font-size: 2.4rem;
     white-space: normal;
-    text-align: center;
+    justify-content: center;
+  }
+
+  .skills-subheading::before,
+  .skills-subheading::after {
+    max-width: 50px;
   }
 
   .section-title {
@@ -4404,8 +4417,14 @@ footer#page-footer {
 
   .skills-subheading {
     font-size: 1.8rem;
-    text-align: center;
+    justify-content: center;
     line-height: 1.3;
+    gap: 1rem;
+  }
+
+  .skills-subheading::before,
+  .skills-subheading::after {
+    max-width: 30px;
   }
 
   .section-title {
@@ -4954,7 +4973,7 @@ footer#page-footer {
     width: 100%;
     max-width: 100%;
     gap: 0.6rem;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem; /* Added horizontal padding */
     border-radius: 2rem;
     overflow-x: auto;
     overflow-y: hidden;
@@ -4964,6 +4983,8 @@ footer#page-footer {
     justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 2rem;
+    scroll-snap-type: x proximity; /* Smooth scroll snap */
+    scroll-padding: 0 1rem; /* Padding for scroll snap */
   }
 
   .projects__filters::-webkit-scrollbar {
@@ -4976,6 +4997,7 @@ footer#page-footer {
     flex-shrink: 0;
     min-width: fit-content;
     white-space: nowrap;
+    scroll-snap-align: start; /* Snap alignment for smooth scrolling */
   }
 
   .filter-btn.active::after {

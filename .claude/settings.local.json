@@ -8,7 +8,8 @@
       "Bash(do echo -n \"$url: \")",
       "Bash(done)",
       "Bash(npx clean-css-cli:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(bun run:*)"
     ],
     "deny": [],
     "ask": []

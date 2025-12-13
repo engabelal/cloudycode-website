@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title Design Options - CloudyCode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --purple: #7127ba;
+      --purple-light: #a362ff;
+      --purple-dark: #1a0b2e;
+      --background: #11071f;
+      --white: #ffffff;
+      --gradient-accent: linear-gradient(135deg, #7127ba 0%, #a362ff 100%);
+      --gradient-reverse: linear-gradient(135deg, #a362ff 0%, #7127ba 100%);
+      --font-plus-jakarta-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--white);
+      font-family: var(--font-plus-jakarta-sans);
+      padding: 4rem 2rem;
+      line-height: 1.6;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+
+    .page-header h1 {
+      font-size: 3.5rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .design-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      gap: 6rem;
+    }
+
+    .design-option {
+      background: rgba(17, 7, 31, 0.8);
+      border: 1px solid rgba(163, 98, 255, 0.2);
+      border-radius: 20px;
+      padding: 4rem 3rem;
+      position: relative;
+    }
+
+    .design-label {
+      position: absolute;
+      top: -15px;
+      left: 30px;
+      background: var(--gradient-accent);
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .design-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      margin-top: 2rem;
+    }
+
+    /* Design 1: Minimal Gradient with Underline */
+    .design-1 .section-title {
+      font-size: 3rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .design-1 .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: var(--gradient-accent);
+      border-radius: 2px;
+    }
+
+    /* Design 2: Icon Badge Style */
+    .design-2 .section-title {
+      font-size: 3rem;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .design-2 .title-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-accent);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    /* Design 3: Bordered Container */
+    .design-3 .section-title {
+      font-size: 3rem;
+      background: linear-gradient(135deg, rgba(113, 39, 186, 0.1) 0%, rgba(163, 98, 255, 0.1) 100%);
+      border: 2px solid;
+      border-image: var(--gradient-accent) 1;
+      padding: 2rem 3rem;
+      border-radius: 15px;
+      color: var(--white);
+      text-align: center;
+    }
+
+    /* Design 4: Glowing Effect */
+    .design-4 .section-title {
+      font-size: 3rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(163, 98, 255, 0.6));
+      font-weight: 700;
+    }
+
+    /* Design 5: Pill Badge Style */
+    .design-5 .section-title {
+      font-size: 2.4rem;
+      background: var(--gradient-accent);
+      padding: 1.5rem 3rem;
+      border-radius: 50px;
+      color: var(--white);
+      display: inline-block;
+      font-weight: 600;
+      box-shadow: 0 8px 32px rgba(163, 98, 255, 0.4);
+    }
+
+    /* Design 6: Split Line Accent */
+    .design-6 .section-title {
+      font-size: 3rem;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .design-6 .section-title::before,
+    .design-6 .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--gradient-accent);
+      max-width: 80px;
+    }
+
+    /* Design 7: Stacked with Icon */
+    .design-7 .section-title {
+      font-size: 3rem;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .design-7 .title-icon-top {
+      font-size: 3rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* Design 8: Corner Accent */
+    .design-8 .section-title {
+      font-size: 3rem;
+      color: var(--white);
+      background: rgba(163, 98, 255, 0.05);
+      padding: 2rem 2.5rem;
+      border-radius: 10px;
+      position: relative;
+      border-left: 5px solid;
+      border-image: var(--gradient-accent) 1;
+    }
+
+    .design-8 .section-title::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 40px;
+      height: 40px;
+      border-top: 3px solid var(--purple-light);
+      border-left: 3px solid var(--purple-light);
+      border-radius: 10px 0 0 0;
+    }
+
+    /* Design 9: Gradient Background Full */
+    .design-9 .section-title {
+      font-size: 3rem;
+      background: var(--gradient-accent);
+      padding: 2.5rem 4rem;
+      border-radius: 20px;
+      color: var(--white);
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(113, 39, 186, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .design-9 .section-title::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .design-9 .section-title:hover::before {
+      left: 100%;
+    }
+
+    /* Design 10: Modern Chip Style */
+    .design-10 .section-title {
+      font-size: 2.6rem;
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: rgba(113, 39, 186, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(163, 98, 255, 0.3);
+      padding: 1.5rem 3rem 1.5rem 2rem;
+      border-radius: 60px;
+      position: relative;
+    }
+
+    .design-10 .title-badge {
+      width: 45px;
+      height: 45px;
+      background: var(--gradient-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .design-option {
+        padding: 3rem 2rem;
+      }
+
+      .design-1 .section-title,
+      .design-2 .section-title,
+      .design-3 .section-title,
+      .design-4 .section-title,
+      .design-6 .section-title,
+      .design-7 .section-title,
+      .design-8 .section-title,
+      .design-9 .section-title {
+        font-size: 2rem;
+      }
+
+      .design-5 .section-title {
+        font-size: 1.8rem;
+        padding: 1.2rem 2rem;
+      }
+
+      .design-10 .section-title {
+        font-size: 1.8rem;
+        padding: 1.2rem 2rem 1.2rem 1.5rem;
+      }
+
+      .design-2 .title-icon,
+      .design-10 .title-badge {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <h1>Title Design Options</h1>
+    <p>10 design variations for "DevOps and Cloud Stack" & "Traditional Infrastructure Stack"</p>
+  </div>
+
+  <div class="design-container">
+    <!-- Design 1 -->
+    <div class="design-option design-1">
+      <div class="design-label">Design 1: Minimal Gradient Underline</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 2 -->
+    <div class="design-option design-2">
+      <div class="design-label">Design 2: Icon Badge Left</div>
+      <div class="design-content">
+        <h2 class="section-title">
+          <span class="title-icon"><i class="fas fa-cloud"></i></span>
+          DevOps and Cloud Stack
+        </h2>
+        <h2 class="section-title">
+          <span class="title-icon"><i class="fas fa-server"></i></span>
+          Traditional Infrastructure Stack
+        </h2>
+      </div>
+    </div>
+
+    <!-- Design 3 -->
+    <div class="design-option design-3">
+      <div class="design-label">Design 3: Bordered Container</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 4 -->
+    <div class="design-option design-4">
+      <div class="design-label">Design 4: Glowing Gradient</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 5 -->
+    <div class="design-option design-5">
+      <div class="design-label">Design 5: Pill Badge Style</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 6 -->
+    <div class="design-option design-6">
+      <div class="design-label">Design 6: Split Line Accent</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 7 -->
+    <div class="design-option design-7">
+      <div class="design-label">Design 7: Icon Top Centered</div>
+      <div class="design-content">
+        <h2 class="section-title">
+          <span class="title-icon-top"><i class="fas fa-cloud"></i></span>
+          DevOps and Cloud Stack
+        </h2>
+        <h2 class="section-title">
+          <span class="title-icon-top"><i class="fas fa-server"></i></span>
+          Traditional Infrastructure Stack
+        </h2>
+      </div>
+    </div>
+
+    <!-- Design 8 -->
+    <div class="design-option design-8">
+      <div class="design-label">Design 8: Corner Accent Border</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 9 -->
+    <div class="design-option design-9">
+      <div class="design-label">Design 9: Full Gradient Background (Hover for effect)</div>
+      <div class="design-content">
+        <h2 class="section-title">DevOps and Cloud Stack</h2>
+        <h2 class="section-title">Traditional Infrastructure Stack</h2>
+      </div>
+    </div>
+
+    <!-- Design 10 -->
+    <div class="design-option design-10">
+      <div class="design-label">Design 10: Modern Chip Style</div>
+      <div class="design-content">
+        <h2 class="section-title">
+          <span class="title-badge"><i class="fas fa-cloud"></i></span>
+          DevOps and Cloud Stack
+        </h2>
+        <h2 class="section-title">
+          <span class="title-badge"><i class="fas fa-server"></i></span>
+          Traditional Infrastructure Stack
+        </h2>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
